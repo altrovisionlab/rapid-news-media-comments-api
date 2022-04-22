@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using rapid_news_media_comments_api.Authorization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<CommentsDbContext>(opt => opt.UseInMemoryDatabase("CommentsDb"));
@@ -11,6 +13,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add services to the container.
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
@@ -36,6 +41,9 @@ app.UseCors(x => x
     .AllowAnyOrigin()
     .AllowAnyMethod()
     .AllowAnyHeader());
+
+// custom auth middleware
+app.UseMiddleware<AuthMiddleware>();
 
 app.UseAuthorization();
 

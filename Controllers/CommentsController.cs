@@ -1,15 +1,12 @@
 #nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using rapid_news_media_comments_api.Models;
+using rapid_news_media_comments_api.Authorization;
 
 namespace rapid_news_media_comments_api.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
@@ -22,6 +19,7 @@ namespace rapid_news_media_comments_api.Controllers
         }
 
         // GET: api/Comments
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Comment>>> GetComments([FromQuery] long newsReportId)
         {
@@ -30,6 +28,7 @@ namespace rapid_news_media_comments_api.Controllers
         }
 
         // GET: api/Comments/5
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<Comment>> GetComment(long id)
         {
